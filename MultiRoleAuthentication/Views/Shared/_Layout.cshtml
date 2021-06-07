@@ -31,16 +31,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Customer">Customers</a>
-                            </li>
+                            </li>*@
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminUsers">Admins</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AllUsers">Users</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="UserRole">Role</a>
@@ -49,7 +46,7 @@
                         @if (User.IsInRole("Manager"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Task" asp-action="FlowPOBoard" asp-route-id="0">My Board </a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Manager" asp-action="ManagerBoard" asp-route-id="0">Manager Board</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="TeamBoard">Team Board</a>

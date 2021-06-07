@@ -1,8 +1,33 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using MultiRoleAuthentication.Areas.Identity.Data
+@{
     ViewData["Title"] = "Home Page";
 }
+@inject UserManager<MultiRoleAuthUser> UserManager
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <h1 class="display-4 text-center">Welcome!</h1>
+    <br />
+    @if (User.IsInRole("Manager"))
+    {
+        <h4>Hello Manager !!!</h4>
+    }
+    else if (User.IsInRole("Developer"))
+    {
+        <h4>Hello Developer !!!</h4>
+    }
+    else if (User.IsInRole("Tester"))
+    {
+        <h4>Hello Tester !!!</h4>
+    }
+    
+    else if (User.IsInRole("Admin"))
+    {
+        <h4>Welcome back Admin!</h4>
+    }
+    else
+    {
+        <h4>Login to your account.</h4>
+    }
+
 </div>

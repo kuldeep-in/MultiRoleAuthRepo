@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MultiRoleAuthentication.Areas.Identity.Data;
+using MultiRoleAuthentication.DAL;
 using MultiRoleAuthentication.Data;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,8 @@ namespace MultiRoleAuthentication
             services.AddRazorPages();
 
             services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBContextConnection")));
-
+            services.AddScoped<IWorkItemRepository, WorkItemRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

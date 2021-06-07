@@ -1,0 +1,107 @@
+﻿@model MultiRoleAuthentication.ViewModels.ManagerBoardViewModel
+
+@{
+    ViewData["Title"] = "FlowBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">My Board</h1>
+
+@if (Model.ShowRequirementSavedMessage)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Requirement sent to developer.
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        @if (Model.WorkItemId > 0)
+        {
+            <h2>Update requirement</h2>
+        }
+        else
+        {
+            if (Model.ShowRequirementSavedMessage)
+            {
+                <h2>Create your next requirement</h2>
+            }
+            else
+            {
+                <h2>Create new requirement</h2>
+            }
+        }
+    </div>
+    <div class="col-md-5 offset-md-1">
+        <h2 class="text-center">Returned to You</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="FlowPOBoard">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="card" style="margin-bottom:4px; background-color:lightgray">
+                <div class="card-body">
+                    @Html.HiddenFor(x => x.WorkItemId)
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" rows="3" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="IsUrgent">
+                                @*<i class="fas fa-arrow-circle-up fa-2x text-danger"></i>*@
+                                <input asp-for="IsUrgent" />
+                                @Html.DisplayNameFor(m => m.IsUrgent)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                @if (Model.WorkItemId > 0)
+                {
+                    @Html.ActionLink("Cancel", "ManagerBoard", new { id = 0 }, new { @class = "btn btn-primary" })
+                }
+            </div>
+        </form>
+    </div>
+    <div class="col-md-5 offset-md-1">
+        @foreach (var item in Model.WorkItems.OrderByDescending(x => x.IsUrgent))
+        {
+            <div class="card" style="margin-bottom:2px; background-color:antiquewhite">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @if (item.IsUrgent)
+                        {
+                            <i class="fas fa-arrow-circle-up text-danger"></i>
+                        }
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.PoComment)</p>
+                    <span class="card-text">Created by: @Html.DisplayFor(modelItem => item.PoCommentCreatedBy)</span><br />
+                    <span class="card-text">
+                        Created at:
+                        <script>
+                            localizeDateTime("@item.PoCommentCreatedOn.Value.ToString("MM/dd/yyyy hh:mm:ss tt UTC")");
+                        </script>
+                    </span><br />
+                    @Html.ActionLink("Amend", "ManagerBoard", new { id = item.WorkItemId }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
