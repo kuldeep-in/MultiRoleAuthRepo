@@ -1,0 +1,103 @@
+﻿@model List<MultiRoleAuthentication.Areas.Identity.Data.WorkItem>
+@{
+    ViewData["Title"] = "All WorkItems";
+}
+<div id="counterDiv" class="alwaysOnTopContainer text-center text-primary">
+    <h4 class="text-primary"><span class="alwaysOnTopText">Refreshing in <span id="countdown_text">30</span> seconds</span></h4>
+</div>
+<div id="noRefreshDiv" class="alwaysOnTopContainer text-center text-primary" style="display:none">
+    <h4 class="text-primary"><span class="alwaysOnTopText">Auto-refresh paused. <a href="javascript:location.reload();">Click here to refresh.</a></span></h4>
+</div>
+<h4>&#160;</h4>
+<h1 class="text-center">All WorkItems</h1>
+
+
+@if (Model.Count() == 0)
+{
+    <div class="form-group" style="padding-top:8px;">
+        <label class="bg-info" style="padding:10px;"> No record found</label>
+    </div>
+}
+else
+{
+    <table class="table table-striped" style="padding-top:8px;">
+        <thead class="thead-light">
+            <tr>
+                <th></th>
+                <th width="10%">
+                    @Html.DisplayName("Title")
+                </th>
+                <th>
+                    @Html.DisplayName("Requirement")
+                </th>
+                <th width="25%">
+                    @Html.DisplayName("Implementation")
+                </th>
+                <th width="8%">
+                    @Html.DisplayName("Release Time")
+                </th>
+                <th width="11%">Return</th>
+                <th width="10%"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                using (Html.BeginForm("ReturnFromUser", "Admin", FormMethod.Post))
+                {
+                    <tr>
+                        <td>
+                            @if (Model[i].IsUrgent)
+                            {
+                                <i class="fas fa-arrow-circle-up text-danger"></i>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x[i].Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x[i].PoComment)
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(x => x[i].DevComment, new { onkeydown = "stopRefresh()", style = "width:100%" })
+                        </td>
+                        <td>
+                            @if (Model[i].TestCommentCreatedOn != null)
+                            {
+                                <script>
+                                    localizeDateTime("@Model[i].TestCommentCreatedOn.Value.ToString("MM / dd / yyyy hh: mm:ss tt UTC")");
+                                </script>
+                            }
+                        </td>
+                        <td>
+                            <input type="hidden" name="Index" value="@i" />
+                            <button name="ReturnTo" value="Tester" type="submit" class="btn btn-danger">To Tester</button>
+                        </td>
+                        <td>
+                            <button name="ReturnTo" value="PO" type="submit" class="btn btn-danger">To PO</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+<script language="Javascript">
+    $(document).ready(function () {
+        var countdown_number = 30;
+        countdown_trigger(countdown_number);
+
+    });
+
+    function stopRefresh() {
+        var x = document.getElementById("noRefreshDiv");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            document.getElementById("counterDiv").style.display = "none";
+            countdown_clear();
+        }
+    }
+
+</script>

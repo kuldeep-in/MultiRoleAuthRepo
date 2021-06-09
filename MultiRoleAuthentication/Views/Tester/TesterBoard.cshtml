@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MultiRoleAuthentication.Areas.Identity.Data.WorkItem>
+@{
+    ViewData["Title"] = "TesterBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Tester Board</h1>
+
+@if (Model.Count() == 0)
+{
+    <div class="row" id="norecordDiv">
+        <label class="bg-info" style="padding:10px; margin-right:10px;"> No record(s) found</label>
+    </div>
+    <div id="counterDiv" class="text-center text-primary" style="padding:30px;">
+        <h2 class="text-primary">Refreshing in </h2>
+        <div id="countdown_text" class="font-weight-bold text-center"></div>
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th width="8%"></th>
+                <th width="12%">
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PoComment)
+                </th>
+                <th width="10%"></th>
+                <th width="15%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderByDescending(x => x.IsUrgent))
+            {
+                <tr>
+                    <td>
+                        @if (item.IsUrgent)
+                        {
+                            <i class="fas fa-arrow-circle-up text-danger"></i>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PoComment)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Test", "TestView", new { id = item.WorkItemId }, new { @class = "btn btn-primary" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Return to Product Owner", "ReturntoPO", new { id = item.WorkItemId }, new { @class = "btn btn-danger", @onclick = "return confirm('Are you sure you want to return this item to Product Owner?')" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<script language="Javascript">
+    $(document).ready(function () {
+        if ($("#norecordDiv").length > 0) {
+            var countdown_number = 16;
+            countdown_trigger(countdown_number);
+        }
+    });
+</script>

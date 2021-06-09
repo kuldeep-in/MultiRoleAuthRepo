@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MultiRoleAuthentication.Areas.Identity.Data;
+using MultiRoleAuthentication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace MultiRoleAuthentication.Controllers
         private UserManager<MultiRoleAuthUser> _userManager;
         private RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(DBContext dbContext, 
+        public AdminController(DBContext dbContext,
                                 RoleManager<IdentityRole> roleManager,
                                 UserManager<MultiRoleAuthUser> userManager)
         {
@@ -106,6 +107,24 @@ namespace MultiRoleAuthentication.Controllers
                 await _roleManager.DeleteAsync(role);
             }
             return RedirectToAction("UserRole");
+        }
+
+        public IActionResult AllWorkItems()
+        {
+
+            var workitems = (from workitem in _dbContext.WorkItems
+                             where workitem.StateId == (int)WIStatus.Release
+                             select new WorkItem
+                             {
+                                 WorkItemId = workitem.WorkItemId,
+                                 Title = workitem.Title,
+                                 PoComment = workitem.PoComment,
+                                 DevComment = workitem.DevComment,
+                                 TestCommentCreatedOn = workitem.TestCommentCreatedOn,
+                                 StateId = workitem.StateId,
+                                 IsUrgent = workitem.IsUrgent
+                             }).ToList();
+            return View(workitems);
         }
     }
 }

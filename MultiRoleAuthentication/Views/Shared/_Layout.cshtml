@@ -6,7 +6,9 @@
     <title>@ViewData["Title"] - MultiRoleAuthentication</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/lib/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
     <script>
         function localizeDateTime(date) {
             // var arr = date.split("/")
@@ -33,9 +35,9 @@
                         </li>
                         @if (User.IsInRole("Admin"))
                         {
-                            @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Customer">Customers</a>
-                            </li>*@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AllWorkItems">All WorkItem</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AllUsers">Users</a>
                             </li>
@@ -55,7 +57,7 @@
                         @if (User.IsInRole("Developer"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Task" asp-action="FlowDeveloperBoard">My Board</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Developer" asp-action="DeveloperBoard">Developer Board</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="TeamBoard">Team Board</a>
@@ -64,7 +66,7 @@
                         @if (User.IsInRole("Tester"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Task" asp-action="FlowTesterBoard">My Board</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Tester" asp-action="TesterBoard">TesterBoard</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="TeamBoard">Team Board</a>

@@ -1,0 +1,56 @@
+﻿@model MultiRoleAuthentication.Areas.Identity.Data.WorkItem
+
+@{
+    ViewData["Title"] = "Test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Test</h1>
+
+<div class="">
+    @Html.ActionLink("Back to List", "TesterBoard", new { }, new { @class = "btn btn-secondary" })
+</div>
+
+<div class="row" style="padding-top:20px;">
+    <div class="col-md-8 offset-md-2">
+        <form asp-action="TestView">
+            @Html.HiddenFor(modelItem => modelItem.WorkItemId)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" readonly="readonly" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PoComment" class="control-label"></label>
+                <textarea asp-for="PoComment" class="form-control" readonly="readonly" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="DevComment" class="control-label"></label>
+                <input asp-for="DevComment" class="form-control" readonly="readonly" />
+            </div>
+            <div class="form-group">
+                <input type="submit" name="passbutton" value="Pass" class="btn btn-success" />
+            </div>
+
+
+            <div class="form-group">
+
+                <label asp-for="TestComment" class="control-label"></label>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <input asp-for="TestComment" class="form-control" />
+                        <span asp-validation-for="TestComment" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" name="failbutton" value="Fail" class="btn btn-danger" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

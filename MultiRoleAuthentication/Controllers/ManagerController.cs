@@ -78,6 +78,7 @@ namespace MultiRoleAuthentication.Controllers
                             WIDescription = "",
                             IsUrgent = viewmodel.IsUrgent,
                             StateId = (int)WIStatus.Development,
+                            TeamId = 0,
                             PoComment = viewmodel.Description,
                             CreatedBy = user.UserName,
                             CreatedOn = DateTime.UtcNow,
@@ -94,7 +95,7 @@ namespace MultiRoleAuthentication.Controllers
                     workitem.StateId = (int)WIStatus.Development;
                 }
                 _workItemRepository.Save();
-                return RedirectToAction("FlowPOBoard", new { id = 0, showRequirementSavedMessage = true });
+                return RedirectToAction("ManagerBoard", new { id = 0, showRequirementSavedMessage = true });
             }
             return View(viewmodel);
         }

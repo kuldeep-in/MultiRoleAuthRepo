@@ -1,0 +1,50 @@
+﻿@model MultiRoleAuthentication.Areas.Identity.Data.WorkItem
+
+@{
+    ViewData["Title"] = "Development";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Implement</h1>
+
+<div class="">
+    @Html.ActionLink("Back to List", "DeveloperBoard", new { }, new { @class = "btn btn-secondary" })
+</div>
+
+<div class="row" style="padding-top:20px;">
+    <div class="col-md-10 offset-md-1">
+        <form asp-action="Development">
+            @Html.HiddenFor(modelItem => modelItem.WorkItemId)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" readonly="readonly" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PoComment" class="control-label"></label>
+                <textarea asp-for="PoComment" class="form-control" rows="5" readonly="readonly"></textarea>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.TestComment))
+            {
+                <div class="form-group">
+                    <label asp-for="TestComment" class="control-label"></label>
+                    <input asp-for="TestComment" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="TestComment" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="DevComment" class="control-label"></label>
+                <input asp-for="DevComment" class="form-control" />
+                <span asp-validation-for="DevComment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

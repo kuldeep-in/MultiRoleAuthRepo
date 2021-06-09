@@ -1,0 +1,110 @@
+﻿@model IEnumerable<MultiRoleAuthentication.Areas.Identity.Data.WorkItem>
+
+@{
+    ViewData["Title"] = "TeamBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Team Board</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2 class="text-center">In Development</h2>
+    </div>
+    <div class="col-md-4">
+        <h2 class="text-center">In Testing</h2>
+    </div>
+    <div class="col-md-4">
+        <h2 class="text-center">Released</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @foreach (var item in Model.Where(x => x.StateId == 1))
+        {
+            <div class="card" style="margin-bottom:2px; background-color:antiquewhite">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @if (item.IsUrgent)
+                        {
+                            <i class="fas fa-arrow-circle-up text-danger"></i>
+                        }
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.PoComment)</p>
+                    <span class="card-text">
+                        Created at:
+                        <script>
+                            localizeDateTime("@item.PoCommentCreatedOn.Value.ToString("MM/dd/yyyy hh:mm:ss tt UTC")");
+                        </script>
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        @foreach (var item in Model.Where(x => x.StateId == 2))
+        {
+            <div class="card" style="margin-bottom:2px; background-color:lightgoldenrodyellow">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @if (item.IsUrgent)
+                        {
+                            <i class="fas fa-arrow-circle-up text-danger"></i>
+                        }
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.PoComment)</p>
+                    <span class="card-text">
+                        Created at:
+                        <script>
+                            localizeDateTime("@item.PoCommentCreatedOn.Value.ToString("MM/dd/yyyy hh:mm:ss tt UTC")");
+                        </script>
+                    </span><br />
+                    <span class="card-text">
+                        Developed at:
+                        <script>
+                            localizeDateTime("@item.DevCommentCreatedOn.Value.ToString("MM/dd/yyyy hh:mm:ss tt UTC")");
+                        </script>
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        @foreach (var item in Model.Where(x => x.StateId == 3))
+        {
+            <div class="card" style="margin-bottom:2px; background-color:lightgreen">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @if (item.IsUrgent)
+                        {
+                            <i class="fas fa-arrow-circle-up text-danger"></i>
+                        }
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.PoComment)</p>
+                    <span class="card-text">
+                        Created at:
+                        <script>
+                            localizeDateTime("@item.PoCommentCreatedOn.Value.ToString("MM/dd/yyyy hh:mm:ss tt UTC")");
+                        </script>
+                    </span><br />
+                    <span class="card-text">
+                        Developed at:
+                        <script>
+                            localizeDateTime("@item.DevCommentCreatedOn.Value.ToString("MM/dd/yyyy hh:mm:ss tt UTC")");
+                        </script>
+                    </span><br />
+                    <span class="card-text">
+                        Tested at:
+                        <script>
+                            localizeDateTime("@item.TestCommentCreatedOn.Value.ToString("MM/dd/yyyy hh:mm:ss tt UTC")");
+                        </script>
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+</div>

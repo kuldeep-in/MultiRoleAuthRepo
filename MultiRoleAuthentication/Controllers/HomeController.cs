@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MultiRoleAuthentication.Areas.Identity.Data;
+using MultiRoleAuthentication.DAL;
 using MultiRoleAuthentication.Models;
 using System;
 using System.Collections.Generic;
@@ -12,15 +16,26 @@ namespace MultiRoleAuthentication.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<MultiRoleAuthUser> _userManager;
+        private readonly IWorkItemRepository _workItemRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<MultiRoleAuthUser> userManager, IWorkItemRepository workItemRepository)
         {
             _logger = logger;
+            _userManager = userManager;
+            _workItemRepository = workItemRepository;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> TeamBoard()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return View(_workItemRepository.GetWorkItemsByState(WIStatus.AllStatus));
         }
 
         public IActionResult Privacy()
