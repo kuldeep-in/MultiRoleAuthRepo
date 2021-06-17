@@ -36,6 +36,7 @@ namespace MultiRoleAuthentication
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddApplicationInsightsTelemetry();
 
             services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBContextConnection")));
             services.AddScoped<IWorkItemRepository, WorkItemRepository>();
